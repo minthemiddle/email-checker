@@ -150,6 +150,7 @@ function serveWebInterface() {
                                 <p>WZ-Code: <span x-text="results.industry.wz_code"></span></p>
                                 <p>Branche: <span x-text="results.industry.industry"></span></p>
                                 <p>Organisationstyp: <span x-text="results.industry.org_type"></span></p>
+                                <p>Beschreibung: <span x-text="results.industry.description"></span></p>
                             </div>
                         </div>
                     </div>
@@ -181,8 +182,9 @@ Analysiere den folgenden Text einer Webseite und bestimme:
 1. Den Organisationstyp (Firma, Verband, Politik, Anderes)
 2. Den WZ-Code (Wirtschaftszweigklassifikation in Deutschland)
 3. Die Branchenbezeichnung
+4. Eine einzeilige Beschreibung der Organisation
 
-Gib die Antwort im JSON Format mit den Feldern 'org_type', 'wz_code' und 'industry'.
+Gib die Antwort im JSON Format mit den Feldern 'org_type', 'wz_code', 'industry' und 'description'.
 
 Webseiteninhalt:
 EOD;
@@ -192,7 +194,8 @@ EOD;
         return [
             'wz_code' => 'unknown',
             'industry' => 'OpenAI API key not configured',
-            'org_type' => 'Anderes'
+            'org_type' => 'Anderes',
+            'description' => 'API key not configured'
         ];
     }
 
@@ -214,7 +217,8 @@ EOD;
         return [
             'wz_code' => 'unknown',
             'industry' => 'Error during industry classification: ' . $e->getMessage(),
-            'org_type' => 'Anderes'
+            'org_type' => 'Anderes',
+            'description' => 'Error during classification'
         ];
     }
 }
@@ -236,7 +240,8 @@ function performEmailCheck($email) {
         'industry' => [
             'wz_code' => '',
             'industry' => '',
-            'org_type' => ''
+            'org_type' => '',
+            'description' => ''
         ]
     ];
 
