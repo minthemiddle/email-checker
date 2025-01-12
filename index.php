@@ -93,6 +93,13 @@ function serveWebInterface() {
                         <div class="bg-gray-50 p-4 rounded-lg mb-4">
                             <p class="font-medium">Email: <span x-text="results.email" class="font-normal"></span></p>
                             <p class="font-medium">Domain Status: <span x-text="results.domain_status" class="font-normal"></span></p>
+                            <p class="font-medium">Domain: 
+                                <a :href="'https://' + results.email.split('@')[1]" 
+                                   target="_blank" 
+                                   class="text-blue-600 hover:text-blue-800 font-normal">
+                                    <span x-text="results.email.split('@')[1]"></span>
+                                </a>
+                            </p>
                         </div>
                         
                         <!-- DNS Records -->
