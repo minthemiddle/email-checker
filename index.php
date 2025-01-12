@@ -143,6 +143,13 @@ function serveWebInterface() {
                                 <p>Type: <span x-text="results.classification.type"></span></p>
                                 <p>Reasoning: <span x-text="results.classification.reasoning"></span></p>
                             </div>
+
+                            <!-- Domain Classification -->
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h3 class="font-medium mb-2">Domain Classification</h3>
+                                <p>WZ-Code: <span x-text="results.industry.wz_code"></span></p>
+                                <p>Industry: <span x-text="results.industry.industry"></span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,6 +164,54 @@ HTML;
 }
 
 // Function to perform email checks and return results
+function getHomepageContent($domain) {
+    $url = "https://r.jina.ai/https://$domain";
+    try {
+        $content = file_get_contents($url);
+        return $content ?: '';
+    } catch (Exception $e) {
+        return '';
+    }
+}
+
+function performIndustryClassification($content) {
+    $prompt = <<<EOD
+Analysiere den folgenden Text einer Webseite und bestimme den WZ-Code (Wirtschaftszweigklassifikation in Deutschland) 
+sowie die Branchenbezeichnung. Gib die Antwort im JSON Format mit den Feldern 'wz_code' und 'industry'.
+
+Webseiteninhalt:
+EOD;
+
+    $yourApiKey = getenv('OPENAI_API_KEY');
+    if (!$yourApiKey) {
+        return [
+            'wz_code' => 'unknown',
+            'industry' => 'OpenAI API key not configured'
+        ];
+    }
+
+    try {
+        $client = OpenAI::client($yourApiKey);
+
+        $result = $client->chat()->create([
+            'model' => 'gpt-4o-mini',
+            'messages' => [
+                ['role' => 'user', 'content' => $prompt . $content],
+            ],
+            'response_format' => [
+                'type' => 'json_object'
+            ]
+        ]);
+
+        return json_decode($result->choices[0]->message->content, true);
+    } catch (Exception $e) {
+        return [
+            'wz_code' => 'unknown',
+            'industry' => 'Error during industry classification: ' . $e->getMessage()
+        ];
+    }
+}
+
 function performEmailCheck($email) {
     $results = [
         'email' => $email,
@@ -170,6 +225,10 @@ function performEmailCheck($email) {
         'classification' => [
             'type' => '',
             'reasoning' => ''
+        ],
+        'industry' => [
+            'wz_code' => '',
+            'industry' => ''
         ]
     ];
 
@@ -210,6 +269,14 @@ function performEmailCheck($email) {
     $results['classification']['type'] = $llmResponse['classification'] === 'private' ? 
         'Personal email address' : 'Mass/distribution email address';
     $results['classification']['reasoning'] = $llmResponse['description'];
+
+    // Domain Industry Classification
+    $homepageContent = getHomepageContent($domain);
+    if ($homepageContent) {
+        $industryResponse = performIndustryClassification($homepageContent);
+        $results['industry']['wz_code'] = $industryResponse['wz_code'];
+        $results['industry']['industry'] = $industryResponse['industry'];
+    }
 
     return $results;
 }
