@@ -1,11 +1,13 @@
 <?php
+
+require __DIR__ . '/vendor/autoload.php';
+
 use Fgribreau\MailChecker;
 use Dotenv\Dotenv;
 
 // Load environment variables
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-require __DIR__ . '/vendor/autoload.php';
 
 // Web server functionality
 function serveWebInterface() {
