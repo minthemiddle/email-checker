@@ -65,7 +65,7 @@ function serveWebInterface() {
                         <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
                         <input type="email" 
                                x-model="email"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                placeholder="Enter email address"
                                required>
                     </div>
@@ -291,7 +291,7 @@ EOD;
         $client = OpenAI::client($yourApiKey);
 
         $result = $client->chat()->create([
-            'model' => 'gpt-4-1106-preview',
+            'model' => 'gpt-4o-mini',
             'messages' => [
                 ['role' => 'user', 'content' => $prompt . $emailPrefix],
             ],
