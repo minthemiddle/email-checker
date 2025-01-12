@@ -290,6 +290,7 @@ function performEmailCheck($email) {
         $results['industry']['org_type'] = $industryResponse['org_type'];
         $results['industry']['wz_code'] = $industryResponse['wz_code'];
         $results['industry']['industry'] = $industryResponse['industry'];
+        $results['industry']['description'] = $industryResponse['description'];
     }
 
     return $results;
