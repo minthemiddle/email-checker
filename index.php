@@ -174,6 +174,7 @@ function serveWebInterface() {
                                 <p>Branche: <span x-text="results.industry.industry"></span></p>
                                 <p>Organisationstyp: <span x-text="results.industry.org_type"></span></p>
                                 <p>Beschreibung: <span x-text="results.industry.description"></span></p>
+                                <p>Land: <span x-text="results.industry.country"></span></p>
                             </div>
                             <div x-show="results.industry.screenshot" class="mt-4">
                                 <h4 class="font-medium mb-2">Website Screenshot</h4>
@@ -249,8 +250,9 @@ Analysiere den folgenden Text einer Webseite und bestimme:
 2. Den WZ-Code (Wirtschaftszweigklassifikation in Deutschland)
 3. Die Branchenbezeichnung
 4. Eine einzeilige Beschreibung der Organisation
+5. Das Land, in dem die Organisation hauptsächlich aktiv ist (in natürlicher Sprache, z.B. "Deutschland", "Österreich", "Schweiz")
 
-Gib die Antwort im JSON Format mit den Feldern 'org_type', 'wz_code', 'industry' und 'description'.
+Gib die Antwort im JSON Format mit den Feldern 'org_type', 'wz_code', 'industry', 'description' und 'country'.
 
 Webseiteninhalt:
 EOD;
@@ -359,6 +361,7 @@ function performEmailCheck($email) {
         $results['industry']['wz_code'] = $industryResponse['wz_code'];
         $results['industry']['industry'] = $industryResponse['industry'];
         $results['industry']['description'] = $industryResponse['description'];
+        $results['industry']['country'] = $industryResponse['country'] ?? 'Unbekannt';
     }
 
     return $results;
