@@ -92,7 +92,16 @@ function serveWebInterface() {
                         <!-- Basic Info -->
                         <div class="bg-gray-50 p-4 rounded-lg mb-4">
                             <p class="font-medium">Email: <span x-text="results.email" class="font-normal"></span></p>
-                            <p class="font-medium">Domain Status: <span x-text="results.domain_status" class="font-normal"></span></p>
+                            <div class="flex items-center gap-2">
+                                <p class="font-medium">Domain Status:</p>
+                                <div class="w-4 h-4 rounded-full"
+                                     :class="{
+                                         'bg-green-500': results.domain_status === 'Valid and Active',
+                                         'bg-yellow-500': results.domain_status === 'Domain does not exist or is not accessible',
+                                         'bg-red-500': results.domain_status === 'Invalid email format or disposable email detected'
+                                     }"></div>
+                                <span x-text="results.domain_status" class="font-normal"></span>
+                            </div>
                             <p class="font-medium">Domain: 
                                 <a :href="'https://' + results.email.split('@')[1]" 
                                    target="_blank" 
