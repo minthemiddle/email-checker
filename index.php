@@ -148,7 +148,8 @@ function serveWebInterface() {
                             <div class="bg-gray-50 p-4 rounded-lg">
                                 <h3 class="font-medium mb-2">Domain Classification</h3>
                                 <p>WZ-Code: <span x-text="results.industry.wz_code"></span></p>
-                                <p>Industry: <span x-text="results.industry.industry"></span></p>
+                                <p>Branche: <span x-text="results.industry.industry"></span></p>
+                                <p>Organisationstyp: <span x-text="results.industry.org_type"></span></p>
                             </div>
                         </div>
                     </div>
@@ -176,8 +177,12 @@ function getHomepageContent($domain) {
 
 function performIndustryClassification($content) {
     $prompt = <<<EOD
-Analysiere den folgenden Text einer Webseite und bestimme den WZ-Code (Wirtschaftszweigklassifikation in Deutschland) 
-sowie die Branchenbezeichnung. Gib die Antwort im JSON Format mit den Feldern 'wz_code' und 'industry'.
+Analysiere den folgenden Text einer Webseite und bestimme:
+1. Den WZ-Code (Wirtschaftszweigklassifikation in Deutschland)
+2. Die Branchenbezeichnung
+3. Den Organisationstyp (Firma, Verband, Politik, Anderes)
+
+Gib die Antwort im JSON Format mit den Feldern 'wz_code', 'industry' und 'org_type'.
 
 Webseiteninhalt:
 EOD;
@@ -186,7 +191,8 @@ EOD;
     if (!$yourApiKey) {
         return [
             'wz_code' => 'unknown',
-            'industry' => 'OpenAI API key not configured'
+            'industry' => 'OpenAI API key not configured',
+            'org_type' => 'Anderes'
         ];
     }
 
@@ -207,7 +213,8 @@ EOD;
     } catch (Exception $e) {
         return [
             'wz_code' => 'unknown',
-            'industry' => 'Error during industry classification: ' . $e->getMessage()
+            'industry' => 'Error during industry classification: ' . $e->getMessage(),
+            'org_type' => 'Anderes'
         ];
     }
 }
@@ -228,7 +235,8 @@ function performEmailCheck($email) {
         ],
         'industry' => [
             'wz_code' => '',
-            'industry' => ''
+            'industry' => '',
+            'org_type' => ''
         ]
     ];
 
