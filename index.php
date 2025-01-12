@@ -178,11 +178,11 @@ function getHomepageContent($domain) {
 function performIndustryClassification($content) {
     $prompt = <<<EOD
 Analysiere den folgenden Text einer Webseite und bestimme:
-1. Den WZ-Code (Wirtschaftszweigklassifikation in Deutschland)
-2. Die Branchenbezeichnung
-3. Den Organisationstyp (Firma, Verband, Politik, Anderes)
+1. Den Organisationstyp (Firma, Verband, Politik, Anderes)
+2. Den WZ-Code (Wirtschaftszweigklassifikation in Deutschland)
+3. Die Branchenbezeichnung
 
-Gib die Antwort im JSON Format mit den Feldern 'wz_code', 'industry' und 'org_type'.
+Gib die Antwort im JSON Format mit den Feldern 'org_type', 'wz_code' und 'industry'.
 
 Webseiteninhalt:
 EOD;
@@ -282,9 +282,9 @@ function performEmailCheck($email) {
     $homepageContent = getHomepageContent($domain);
     if ($homepageContent) {
         $industryResponse = performIndustryClassification($homepageContent);
+        $results['industry']['org_type'] = $industryResponse['org_type'];
         $results['industry']['wz_code'] = $industryResponse['wz_code'];
         $results['industry']['industry'] = $industryResponse['industry'];
-        $results['industry']['org_type'] = $industryResponse['org_type'];
     }
 
     return $results;
