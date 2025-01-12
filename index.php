@@ -1,5 +1,10 @@
 <?php
 use Fgribreau\MailChecker;
+use Dotenv\Dotenv;
+
+// Load environment variables
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 require __DIR__ . '/vendor/autoload.php';
 
 // Web server functionality
@@ -186,9 +191,46 @@ function getHomepageContent($domain) {
     $url = "https://r.jina.ai/https://$domain";
     try {
         $content = file_get_contents($url);
-        return $content ?: '';
+        
+        // Capture screenshot
+        $screenshot = captureScreenshot($domain);
+        
+        return [
+            'content' => $content ?: '',
+            'screenshot' => $screenshot
+        ];
     } catch (Exception $e) {
-        return '';
+        return [
+            'content' => '',
+            'screenshot' => null
+        ];
+    }
+}
+
+function captureScreenshot($domain) {
+    try {
+        $apiKey = $_ENV['SCREENSHOTMACHINE_API_KEY'] ?? '5ff245';
+        $url = "https://$domain";
+        
+        $params = [
+            'key' => $apiKey,
+            'url' => $url,
+            'dimension' => '1024x768',
+            'format' => 'png',
+            'cacheLimit' => 0
+        ];
+        
+        $apiUrl = 'https://api.screenshotmachine.com?' . http_build_query($params);
+        
+        $imageData = file_get_contents($apiUrl);
+        if (!$imageData) {
+            throw new Exception('Failed to capture screenshot');
+        }
+        
+        return 'data:image/png;base64,' . base64_encode($imageData);
+    } catch (Exception $e) {
+        error_log('Screenshot error: ' . $e->getMessage());
+        return null;
     }
 }
 
@@ -300,9 +342,10 @@ function performEmailCheck($email) {
     $results['classification']['reasoning'] = $llmResponse['description'];
 
     // Domain Industry Classification
-    $homepageContent = getHomepageContent($domain);
-    if ($homepageContent) {
-        $industryResponse = performIndustryClassification($homepageContent);
+    $homepageData = getHomepageContent($domain);
+    if ($homepageData['content']) {
+        $industryResponse = performIndustryClassification($homepageData['content']);
+        $results['industry']['screenshot'] = $homepageData['screenshot'];
         $results['industry']['org_type'] = $industryResponse['org_type'];
         $results['industry']['wz_code'] = $industryResponse['wz_code'];
         $results['industry']['industry'] = $industryResponse['industry'];
