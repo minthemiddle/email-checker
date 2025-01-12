@@ -274,8 +274,8 @@ function performEmailCheck($email) {
     // Email Classification
     $emailPrefix = strtok($email, '@');
     $llmResponse = performLLMCheck($emailPrefix);
-    $results['classification']['type'] = $llmResponse['classification'] === 'private' ? 
-        'Personal email address' : 'Mass/distribution email address';
+    $results['classification']['type'] = $llmResponse['classification'] === 'Person' ? 
+        'Persönliche Email-Adresse' : 'Verteiler-Email-Adresse';
     $results['classification']['reasoning'] = $llmResponse['description'];
 
     // Domain Industry Classification
