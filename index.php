@@ -296,18 +296,7 @@ EOD;
                 ['role' => 'user', 'content' => $prompt . $emailPrefix],
             ],
             'response_format' => [
-                'type' => 'json_object',
-                'schema' => [
-                    'name' => 'EmailClassification',
-                    'type' => 'object',
-                    'properties' => [
-                        'email' => ['type' => 'string', 'description' => 'The email prefix before @'],
-                        'classification' => ['type' => 'string', 'enum' => ['private', 'mass'], 'description' => 'Classify the email'],
-                        'description' => ['type' => 'string', 'description' => '5 word reasoning for classification.']
-                    ],
-                    'required' => ['email', 'classification', 'description'],
-                    'additionalProperties' => false
-                ]
+                'type' => 'json_object'
             ]
         ]);
 
