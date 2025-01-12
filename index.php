@@ -341,8 +341,8 @@ function getDkimRecord($domain) {
 function performLLMCheck($emailPrefix) {
     $prompt = <<<EOD
 Du bekommst den Teil einer Email-Adresse vor dem @-Zeichen. Du bewertest, ob es eine persönliche Email
-(z.B. dieter.ahnen+323) oder eine Massenaddresse ist (Email Verteiler oder ein Sammelpostfach geschickt,
-z.B. pressestelle). Bitte antworte im JSON Format mit den Feldern 'classification' und 'description'.
+(z.B. dieter.ahnen) oder eine Massenaddresse ist (Email Verteiler oder ein Sammelpostfach geschickt,
+z.B. pressestelle). Bitte antworte im JSON Format mit den Feldern 'classification' und 'description', die Beschreibung muss mit der Klassifikation konsistent sein.
 
 Email-Prefix für die Bewertung:
 EOD;
