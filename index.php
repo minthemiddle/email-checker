@@ -296,8 +296,9 @@ EOD;
                 ['role' => 'user', 'content' => $prompt . $emailPrefix],
             ],
             'response_format' => [
-                'type' => 'json_schema',
-                'json_schema' => [
+                'type' => 'json_object',
+                'schema' => [
+                    'name' => 'EmailClassification',
                     'type' => 'object',
                     'properties' => [
                         'email' => ['type' => 'string', 'description' => 'The email prefix before @'],
