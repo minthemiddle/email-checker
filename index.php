@@ -284,6 +284,7 @@ function performEmailCheck($email) {
         $industryResponse = performIndustryClassification($homepageContent);
         $results['industry']['wz_code'] = $industryResponse['wz_code'];
         $results['industry']['industry'] = $industryResponse['industry'];
+        $results['industry']['org_type'] = $industryResponse['org_type'];
     }
 
     return $results;
