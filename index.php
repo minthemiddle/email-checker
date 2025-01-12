@@ -173,6 +173,12 @@ function serveWebInterface() {
                                 <p>Organisationstyp: <span x-text="results.industry.org_type"></span></p>
                                 <p>Beschreibung: <span x-text="results.industry.description"></span></p>
                             </div>
+                            <div x-show="results.industry.screenshot" class="mt-4">
+                                <h4 class="font-medium mb-2">Website Screenshot</h4>
+                                <img :src="results.industry.screenshot" 
+                                     alt="Website screenshot" 
+                                     class="rounded-lg shadow-md border border-gray-200">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -299,7 +305,8 @@ function performEmailCheck($email) {
             'wz_code' => '',
             'industry' => '',
             'org_type' => '',
-            'description' => ''
+            'description' => '',
+            'screenshot' => null
         ]
     ];
 
