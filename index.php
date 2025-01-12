@@ -351,7 +351,7 @@ function performLLMCheck($emailPrefix) {
     $prompt = <<<EOD
 Du bekommst den Teil einer Email-Adresse vor dem @-Zeichen. Du bewertest, ob es eine persönliche Email
 (z.B. dieter.ahnen) oder eine Massenaddresse ist (Email Verteiler oder ein Sammelpostfach geschickt,
-z.B. pressestelle). Bitte antworte im JSON Format mit den Feldern 'classification' und 'description', die Beschreibung muss mit der Klassifikation konsistent sein.
+z.B. pressestelle). Die Antwort kann entweder 'Person' oder 'Verteiler' sein. Bitte antworte im JSON Format mit den Feldern 'classification' und 'description', die Beschreibung muss mit der Klassifikation konsistent sein.
 
 Email-Prefix für die Bewertung:
 EOD;
