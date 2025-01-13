@@ -100,3 +100,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 - OpenAI for email classification
 - Alpine.js for web interface interactivity
 - Tailwind CSS for styling
+
+## Screenshot
+
+![Screenshot](screenshot.png)
