@@ -32,11 +32,16 @@ A comprehensive email verification and analysis tool that provides:
 1. Clone the repository
 2. Install dependencies: `composer install`
 3. Set up environment variables:
-   - Create a `.env` file
-   - Add your OpenAI API key:
-     ```env
-     OPENAI_API_KEY=your_api_key_here
+   - Copy `.env.sample` to `.env`:
+     ```bash
+     cp .env.sample .env
      ```
+   - Edit the `.env` file and add your API keys:
+     ```env
+     OPENAI_API_KEY=your_openai_api_key_here
+     SCREENSHOTMACHINE_API_KEY=your_screenshotmachine_api_key_here
+     ```
+   - Never commit your `.env` file to version control!
 
 ## Usage
 
