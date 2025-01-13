@@ -6,6 +6,8 @@ A comprehensive email verification and analysis tool that provides:
 - Domain existence checking
 - DNS record analysis (MX, SPF, DMARC, DKIM)
 - Email classification (personal vs mass/distribution)
+- Domain classification and industry analysis
+- Website screenshot capture
 - Web interface and CLI support
 
 ## Features
@@ -26,6 +28,26 @@ A comprehensive email verification and analysis tool that provides:
   - Personal/private email addresses
   - Mass/distribution email addresses
 - Provides reasoning for classification
+
+### Domain Analysis
+- Website content analysis using OpenAI GPT-4
+- Industry classification including:
+  - WZ-Code (German industry classification)
+  - Industry sector
+  - Organization type (Company, Association, Politics, Other)
+  - One-line description
+- Country detection based on website content
+- Website screenshot capture using ScreenshotMachine API
+
+### Web Interface Features
+- Interactive results display with:
+  - Visual domain status indicator (traffic light system)
+  - Clickable domain links
+  - Expandable DNS record details
+  - Website screenshot display
+  - Detailed classification results
+- Responsive design using Tailwind CSS
+- Interactive components using Alpine.js
 
 ## Installation
 
